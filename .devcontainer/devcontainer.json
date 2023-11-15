@@ -1,0 +1,17 @@
+{
+    "build": { "dockerfile": "Dockerfile" },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "golang.Go",
+                "hediet.vscode-drawio",
+                "eamodio.gitlens",
+                "yzhang.markdown-all-in-one",
+                "ms-vscode.makefile-tools"
+            ],
+            "settings": {
+				"editor.formatOnSave": true
+			}
+        }
+    }
+}
