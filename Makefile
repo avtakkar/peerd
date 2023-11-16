@@ -29,11 +29,6 @@ help: info ## Generates help for all targets with a description.
 # Split the string based on the Field Separator (FS) and print the first and second fields.
 	@grep -E '^[^#[:space:]].*?## .*$$' $(MAKEFILE_LIST) | sed -E 's/^[^:]+:([^:]+:)/\1/' | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-.PHONY: install-deps
-install-deps: ## Install build dependencies.
-	@echo "+ $@"
-	sudo $(SCRIPTS_DIR)/install-deps.sh
-
 .PHONY: install-linter
 install-linter: ## Install Go linter.
 	@echo "+ $@"
