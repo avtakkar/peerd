@@ -3,7 +3,6 @@
 [![Go Report Card]][go-report-card]
 [![Build Status]][build-status]
 [![GoDoc]][go-doc]
-[![CodeCov]][codecov]
 
 Peer to peer distribution of container content in Kubernetes clusters.
 
@@ -15,5 +14,3 @@ Peer to peer distribution of container content in Kubernetes clusters.
 [build-status]: https://github.com/avtakkar/peerd/actions/workflows/build.yml
 [GoDoc]: https://godoc.org/github.com/peerd/peerd?status.svg
 [go-doc]: https://godoc.org/github.com/peerd/peerd
-[CodeCov]:
-[codecov]:
