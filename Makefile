@@ -4,7 +4,7 @@ VERSION = $$(git rev-parse --short HEAD)
 # Go build variables.
 GOCMD = go
 GOTEST = $(GOCMD) test -mod=vendor
-GOBUILD = CGO_ENABLED=0 $(GOCMD) build -mod=vendor -installsuffix 'static' -ldflags "-X main.version=$(VERSION)"
+GOBUILD = CGO_ENABLED=1 $(GOCMD) build -mod=vendor -installsuffix 'static' -ldflags "-X main.version=$(VERSION)"
 GOLINT = golangci-lint run
 
 # Source repository variables.
@@ -15,6 +15,11 @@ TEST_RESULTS_DIRECTORY=$(BIN_DIR)/testresults
 SCRIPTS_DIR=$(ROOT_DIR)/scripts
 
 .DEFAULT_GOAL := help
+
+.PHONY: build
+build: ## Build the peerd packages
+	@echo "+ $@"
+	@( $(GOBUILD) ./... )
 
 .PHONY: help
 help: info ## Generates help for all targets with a description.

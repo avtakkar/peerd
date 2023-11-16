@@ -1,5 +1,7 @@
 {
-    "build": { "dockerfile": "Dockerfile" },
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
     "customizations": {
         "vscode": {
             "extensions": [
@@ -7,11 +9,12 @@
                 "hediet.vscode-drawio",
                 "eamodio.gitlens",
                 "yzhang.markdown-all-in-one",
-                "ms-vscode.makefile-tools"
+                "ms-vscode.makefile-tools",
+                "GitHub.copilot"
             ],
             "settings": {
-				"editor.formatOnSave": true
-			}
+                "editor.formatOnSave": true
+            }
         }
     }
 }
