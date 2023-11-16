@@ -8,6 +8,10 @@ RUN go install github.com/cweill/gotests/gotests@latest && \
     go install github.com/haya14busa/goplay/cmd/goplay@latest && \
     go install github.com/go-delve/delve/cmd/dlv@latest && \
     go install honnef.co/go/tools/cmd/staticcheck@latest && \
-    go install golang.org/x/tools/gopls@latest
+    go install golang.org/x/tools/gopls@latest && \
+    go install github.com/axw/gocov/gocov@latest && \
+    go install gotest.tools/gotestsum@latest && \
+    go install github.com/jandelgado/gcov2lcov@latest && \
+    go install github.com/AlekSi/gocov-xml@latest
 
 WORKDIR /go/src/github.com/azure/peerd

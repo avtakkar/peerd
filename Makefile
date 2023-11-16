@@ -32,6 +32,14 @@ help: info ## Generates help for all targets with a description.
 # Split the string based on the Field Separator (FS) and print the first and second fields.
 	@grep -E '^[^#[:space:]].*?## .*$$' $(MAKEFILE_LIST) | sed -E 's/^[^:]+:([^:]+:)/\1/' | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+.PHONY: install-gocov
+install-gocov: ## Install Go cov.
+	@echo "+ $@"
+	@( go install github.com/axw/gocov/gocov@latest && \
+    	go install gotest.tools/gotestsum@latest && \
+    	go install github.com/jandelgado/gcov2lcov@latest && \
+    	go install github.com/AlekSi/gocov-xml@latest )
+
 .PHONY: install-linter
 install-linter: ## Install Go linter.
 	@echo "+ $@"
@@ -40,14 +48,19 @@ install-linter: ## Install Go linter.
 info: header
 
 .PHONY: lint
-lint: ## Run linter
+lint: ## Run linter.
 	@echo "+ $@"
 	@( $(GOLINT) ./... )
 
 .PHONY: test
-test: ## Runs distribution-p2p unit tests
+test: ## Runs tests.
 	@echo "+ $@"
 	@( $(GOTEST) ./... )
+
+.PHONY: testresults
+testresults: ## Generates test results for code coverage
+	@echo "+ $@"
+	@( TEST_RESULTS_DIRECTORY=$(TEST_RESULTS_DIRECTORY) $(SCRIPTS_DIR)/testresults.sh "$(ROOT_DIR)" "$(TEST_PKGS)" true )
 
 define HEADER
 
