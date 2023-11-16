@@ -14,7 +14,10 @@ TEST_PKGS = $(shell go list ./...)
 TEST_RESULTS_DIRECTORY=$(BIN_DIR)/testresults
 SCRIPTS_DIR=$(ROOT_DIR)/scripts
 
-.DEFAULT_GOAL := help
+.DEFAULT_GOAL := all
+
+.PHONY: all
+all: lint test build ## Runs the distribution-p2p build targets in the correct order
 
 .PHONY: build
 build: ## Build the peerd packages
@@ -35,6 +38,16 @@ install-linter: ## Install Go linter.
 	@( curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b /usr/local/bin v1.54.2 )
 
 info: header
+
+.PHONY: lint
+lint: ## Run linter
+	@echo "+ $@"
+	@( $(GOLINT) ./... )
+
+.PHONY: test
+test: ## Runs distribution-p2p unit tests
+	@echo "+ $@"
+	@( $(GOTEST) ./... )
 
 define HEADER
 
