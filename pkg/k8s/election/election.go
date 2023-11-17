@@ -63,37 +63,44 @@ func (le *leaderElection) RunOrDie(ctx context.Context, id string) error {
 		return err
 	}
 
-	leCfg := leaderelection.LeaderElectionConfig{
+	go leaderelection.RunOrDie(ctx, le.leaderElectionConfig(rl))
+	return nil
+}
+
+// leaderElectionConfig creates a new configuration for the leader election.
+func (le *leaderElection) leaderElectionConfig(rl resourcelock.Interface) leaderelection.LeaderElectionConfig {
+	return leaderelection.LeaderElectionConfig{
 		Lock:            rl,
 		ReleaseOnCancel: true,
 		LeaseDuration:   10 * time.Second,
 		RenewDeadline:   5 * time.Second,
 		RetryPeriod:     2 * time.Second,
 		Callbacks: leaderelection.LeaderCallbacks{
-			OnStartedLeading: func(ctx context.Context) {},
+			OnStartedLeading: func(_ context.Context) {},
 			OnStoppedLeading: func() {},
-			OnNewLeader: func(identity string) {
-				if identity == resourcelock.UnknownLeader {
-					return
-				}
-
-				select {
-				case <-le.initChan:
-					break
-				default:
-					// A leader has been elected.
-					close(le.initChan)
-				}
-
-				le.mx.Lock()
-				defer le.mx.Unlock()
-				le.id = identity
-			},
+			OnNewLeader:      le.onNewLeader,
 		},
 	}
+}
 
-	go leaderelection.RunOrDie(ctx, leCfg)
-	return nil
+// onNewLeader is called when a new leader is elected.
+// It updates the leaderElection instance with the new leader's identity.
+func (le *leaderElection) onNewLeader(identity string) {
+	if identity == resourcelock.UnknownLeader {
+		return
+	}
+
+	select {
+	case <-le.initChan:
+		break
+	default:
+		// A leader has been elected.
+		close(le.initChan)
+	}
+
+	le.mx.Lock()
+	defer le.mx.Unlock()
+	le.id = identity
 }
 
 // New build a new LeaderElection instance in the given namespace, with the given name.
@@ -104,6 +111,10 @@ func New(namespace, name, kubeConfigPath string) LeaderElection {
 		panic(err)
 	}
 
+	return newLeaderElection(namespace, name, cs)
+}
+
+func newLeaderElection(namespace, name string, cs kubernetes.Interface) *leaderElection {
 	return &leaderElection{
 		ns:       namespace,
 		name:     name,
