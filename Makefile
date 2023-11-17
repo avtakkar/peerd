@@ -11,7 +11,7 @@ GOLINT = golangci-lint run
 ROOT_DIR := $(shell git rev-parse --show-toplevel)
 BIN_DIR = $(ROOT_DIR)/bin
 TEST_PKGS = $(shell go list ./...)
-TEST_RESULTS_DIRECTORY=$(BIN_DIR)/testresults
+COVERAGE_DIR=$(BIN_DIR)/coverage
 SCRIPTS_DIR=$(ROOT_DIR)/scripts
 
 .DEFAULT_GOAL := all
@@ -57,10 +57,10 @@ test: ## Runs tests.
 	@echo "+ $@"
 	@( $(GOTEST) ./... )
 
-.PHONY: testresults
-testresults: ## Generates test results for code coverage
+.PHONY: coverage
+coverage: ## Generates test results for code coverage
 	@echo "+ $@"
-	@( TEST_RESULTS_DIRECTORY=$(TEST_RESULTS_DIRECTORY) $(SCRIPTS_DIR)/testresults.sh "$(ROOT_DIR)" "$(TEST_PKGS)" true )
+	@( COVERAGE_DIR=$(COVERAGE_DIR) $(SCRIPTS_DIR)/coverage.sh "$(ROOT_DIR)" "$(TEST_PKGS)" true )
 
 define HEADER
 

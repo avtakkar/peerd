@@ -7,7 +7,7 @@ import (
 )
 
 // NewKubernetesInterface creates a new interface for k8s API server.
-// The current runtime environment is assumed to be a pod and its identity is used to create the interface.
+// The current runtime environment is first assumed to be a pod and its identity is used to create the interface.
 // If a pod is not detected, the given kubeConfigPath is used to create the interface.
 func NewKubernetesInterface(kubeConfigPath string) (kubernetes.Interface, error) {
 	config, err := rest.InClusterConfig() // Assume run in a Pod or an environment with appropriate env variables set.
