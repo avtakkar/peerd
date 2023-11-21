@@ -14,4 +14,4 @@ Peer to peer distribution of container content in Kubernetes clusters.
 [go-report-card]: https://goreportcard.com/report/github.com/avtakkar/peerd
 [Build Status]: https://github.com/avtakkar/peerd/actions/workflows/build.yml/badge.svg
 [build-status]: https://github.com/avtakkar/peerd/actions/workflows/build.yml
-[Code Coverage]: https://img.shields.io/badge/coverage-72.31%25-green
+[Code Coverage]: https://img.shields.io/badge/coverage-74.89%25-green
