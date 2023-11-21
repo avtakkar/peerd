@@ -65,7 +65,7 @@ func TestAllNoPlatform(t *testing.T) {
 		client:   client,
 		platform: platforms.Only(platforms.MustParse("darwin/arm64")),
 	}
-	img, err := parseReference("ghcr.io/distribution/distribution:v0.0.8", digest.Digest("sha256:e80e36564e9617f684eb5972bf86dc9e9e761216e0d40ff78ca07741ec70725a"))
+	img, err := ParseReference("ghcr.io/distribution/distribution:v0.0.8", digest.Digest("sha256:e80e36564e9617f684eb5972bf86dc9e9e761216e0d40ff78ca07741ec70725a"))
 	require.NoError(t, err)
 
 	_, err = s.All(context.TODO(), img)
@@ -198,7 +198,7 @@ func TestAll(t *testing.T) {
 				client:   client,
 				platform: platforms.Only(platforms.MustParse(tt.platformStr)),
 			}
-			img, err := parseReference(tt.imageName, digest.Digest(tt.imageDigest))
+			img, err := ParseReference(tt.imageName, digest.Digest(tt.imageDigest))
 			require.NoError(t, err)
 
 			keys, err := s.All(context.TODO(), img)
