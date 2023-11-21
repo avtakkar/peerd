@@ -87,9 +87,9 @@ func (r *reference) String() string {
 	return fmt.Sprintf("%s/%s@%s", r.Host(), r.Repository(), r.Digest())
 }
 
-// parseReference parses the given name into a reference.
+// ParseReference parses the given name into a reference.
 // targetDigest is obtained from the containerd interface, and is used to verify the parsed digest, or to set the digest if it is not present.
-func parseReference(name string, targetDigest digest.Digest) (Reference, error) {
+func ParseReference(name string, targetDigest digest.Digest) (Reference, error) {
 	if strings.Contains(name, "://") {
 		return nil, fmt.Errorf("invalid reference")
 	}

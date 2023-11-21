@@ -141,7 +141,7 @@ func (c *store) Subscribe(ctx context.Context) (<-chan Reference, <-chan error) 
 				continue
 			}
 
-			ref, err := parseReference(image.Name(), image.Target().Digest)
+			ref, err := ParseReference(image.Name(), image.Target().Digest)
 			if err != nil {
 				errChan <- err
 			} else {
@@ -168,7 +168,7 @@ func (c *store) List(ctx context.Context) ([]Reference, error) {
 
 	refs := []Reference{}
 	for _, img := range imgs {
-		ref, err := parseReference(img.Name(), img.Target().Digest)
+		ref, err := ParseReference(img.Name(), img.Target().Digest)
 		if err != nil {
 			return nil, err
 		}

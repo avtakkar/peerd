@@ -55,7 +55,7 @@ func TestParseReference(t *testing.T) {
 		for _, tt := range tests {
 			t.Run(fmt.Sprintf("%s_%s", tt.name, registry), func(t *testing.T) {
 				for _, targetDigest := range []string{tt.expectedDigest.String(), ""} {
-					ref, err := parseReference(fmt.Sprintf("%s/%s", registry, tt.image), digest.Digest(targetDigest))
+					ref, err := ParseReference(fmt.Sprintf("%s/%s", registry, tt.image), digest.Digest(targetDigest))
 					if !tt.digestInImage && targetDigest == "" {
 						require.EqualError(t, err, "invalid digest: ")
 						continue
@@ -73,17 +73,17 @@ func TestParseReference(t *testing.T) {
 }
 
 func TestParseImageDigestDoesNotMatch(t *testing.T) {
-	_, err := parseReference("quay.io/jetstack/cert-manager-webhook@sha256:13fd9eaadb4e491ef0e1d82de60cb199f5ad2ea5a3f8e0c19fdf31d91175b9cb", digest.Digest("sha256:ec4306b243d98cce7c3b1f994f2dae660059ef521b2b24588cfdc950bd816d4c"))
+	_, err := ParseReference("quay.io/jetstack/cert-manager-webhook@sha256:13fd9eaadb4e491ef0e1d82de60cb199f5ad2ea5a3f8e0c19fdf31d91175b9cb", digest.Digest("sha256:ec4306b243d98cce7c3b1f994f2dae660059ef521b2b24588cfdc950bd816d4c"))
 	require.EqualError(t, err, "invalid digest, target does not match parsed digest: quay.io/jetstack/cert-manager-webhook@sha256:13fd9eaadb4e491ef0e1d82de60cb199f5ad2ea5a3f8e0c19fdf31d91175b9cb sha256:13fd9eaadb4e491ef0e1d82de60cb199f5ad2ea5a3f8e0c19fdf31d91175b9cb")
 }
 
 func TestParseImageNoTagOrDigest(t *testing.T) {
-	_, err := parseReference("ghcr.io/xenitab/spegel", digest.Digest(""))
+	_, err := ParseReference("ghcr.io/xenitab/spegel", digest.Digest(""))
 	require.EqualError(t, err, "invalid digest: ")
 }
 
 func TestString(t *testing.T) {
-	got, err := parseReference("jetstack/cert-manager-controller:3.18.0@sha256:c0669ef34cdc14332c0f1ab0c2c01acb91d96014b172f1a76f3a39e63d1f0bda", digest.Digest("sha256:c0669ef34cdc14332c0f1ab0c2c01acb91d96014b172f1a76f3a39e63d1f0bda"))
+	got, err := ParseReference("jetstack/cert-manager-controller:3.18.0@sha256:c0669ef34cdc14332c0f1ab0c2c01acb91d96014b172f1a76f3a39e63d1f0bda", digest.Digest("sha256:c0669ef34cdc14332c0f1ab0c2c01acb91d96014b172f1a76f3a39e63d1f0bda"))
 	if err != nil {
 		t.Fatal(err)
 	}
