@@ -12,6 +12,7 @@ RUN go install github.com/cweill/gotests/gotests@latest && \
     go install github.com/axw/gocov/gocov@latest && \
     go install gotest.tools/gotestsum@latest && \
     go install github.com/jandelgado/gcov2lcov@latest && \
-    go install github.com/AlekSi/gocov-xml@latest
+    go install github.com/AlekSi/gocov-xml@latest && \
+    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b /usr/local/bin v1.54.2
 
 WORKDIR /go/src/github.com/azure/peerd
